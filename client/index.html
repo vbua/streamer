@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<input type="text" id="search">
+<button id="search_btn">Искать</button>
+<pre id="result"></pre>
+<script>
+document.getElementById("search_btn").addEventListener('click', function() {
+    const searchText = document.getElementById("search").value;
+    if (searchText != "") {
+        fetch(`/api/orders/${searchText}`)
+            .then(response => {
+                if (!response.ok) {
+                    console.log(response);
+                    document.getElementById("result").innerText = "Такой заказ не найден, попробуйте другой uid!";
+                    throw new Error(`Error! status: ${response.status}`);
+                } else {
+                    return response.text()
+                }
+            })
+            .then((data) => {
+                console.log(data);
+                document.getElementById("result").innerText = JSON.stringify(JSON.parse(data), undefined, 2);
+            });
+
+    }
+});
+</script>
+</body>
+</html>

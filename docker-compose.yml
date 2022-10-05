@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:14.5
+    environment:
+      - POSTGRES_USER=streamer
+      - POSTGRES_PASSWORD=streamer
+      - POSTGRES_DB=orders_db
+    ports:
+      - "5450:5432"
+    volumes:
+      - ./database/postgresql.sql:/docker-entrypoint-initdb.d/postgresql.sql
+      - ./postgres_data:/var/lib/postgresql/data/
+  nats-streaming:
+    image: "nats-streaming:0.24.6"
+    command:
+      - "--cluster_id"
+      - "streamer"
+    ports:
+      - "4222:4222"
+
