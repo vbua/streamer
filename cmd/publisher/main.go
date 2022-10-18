@@ -37,6 +37,6 @@ func main() {
 			log.Fatal(err.Error())
 		}
 		file.Close()
-		time.Sleep(10 * time.Second)
+		time.Sleep(5 * time.Second)
 	}
 }
